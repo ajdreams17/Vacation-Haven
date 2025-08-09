@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vacation Haven – Find Your Next Getaway</title>
+  <meta name="description" content="Modern short‑term rental site template for Vacation Haven. Responsive, fast, and beginner‑friendly." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue: #2c5f6b;         /* Primary */
+      --beige: #e6d5b8;        /* Secondary */
+      --coral: #ff6b6b;        /* Accent (CTAs) */
+      --offwhite: #fafafa;     /* Neutral base */
+      --charcoal: #333333;     /* Text */
+      --muted: #6b7280;        /* Muted text */
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: Lato, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans"; color: var(--charcoal); background: var(--offwhite); line-height: 1.6; }
+
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(8px); background: rgba(250,250,250,.85); border-bottom: 1px solid rgba(0,0,0,.06); }
+    .container { width: min(1120px, 92%); margin: 0 auto; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color: var(--blue); font-weight: 800; }
+    .brand .logo { width:34px; height:34px; display:grid; place-items:center; background: var(--blue); color:white; border-radius:10px; box-shadow: var(--shadow); font-weight:700; }
+    .menu { display:flex; align-items:center; gap: 22px; }
+    .menu a { color:#333; text-decoration:none; font-weight:600; }
+    .cta { background: var(--coral); color:white; padding: 10px 16px; border-radius: 999px; border: none; font-family:Poppins, sans-serif; font-weight:700; cursor:pointer; box-shadow: var(--shadow); }
+
+    .hamburger { display:none; background:none; border:none; font-size:26px; }
+    @media (max-width: 840px) { .menu { display:none; } .hamburger { display:block; } }
+
+    .mobile-drawer { position: fixed; inset: 0 0 0 auto; width: 80%; max-width: 320px; background:white; box-shadow: var(--shadow); transform: translateX(100%); transition: transform .25s ease; z-index: 60; padding: 24px; }
+    .mobile-drawer.open { transform: translateX(0); }
+    .mobile-drawer a { display:block; padding: 12px 0; color:#333; text-decoration:none; font-weight:600; border-bottom: 1px solid #eee; }
+
+    /* Hero */
+    .hero { position: relative; min-height: 72vh; display:grid; place-items:center; }
+    .hero::before { content:""; position:absolute; inset:0; background: url('https://images.unsplash.com/photo-1600585154356-c7b26d6c997a?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; filter: brightness(.65); }
+    .hero .content { position:relative; z-index:1; text-align: center; color:white; padding: 40px 0; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 60px); line-height: 1.1; margin: 0 0 16px; }
+    .hero p { font-size: clamp(16px, 2.5vw, 20px); opacity:.95; margin: 0 0 24px; }
+
+    /* Booking form */
+    .booking { background: rgba(255,255,255,.98); border-radius: 999px; padding: 10px; display:flex; gap:10px; align-items:center; width: min(920px, 94%); margin: 0 auto; box-shadow: var(--shadow); }
+    .field { position:relative; flex:1; background:#fff; border:1px solid #eee; border-radius:999px; padding: 10px 16px; display:flex; flex-direction:column; }
+    .label { font-size: 12px; color: var(--muted); }
+    .input { border:none; outline:none; font-size: 16px; background:transparent; padding: 2px 0 0; }
+    .search-btn { white-space:nowrap; }
+
+    @media (max-width: 720px){ .booking { border-radius: 16px; flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; } .search-btn { width: 100%; padding: 14px 18px; } }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    .section-title { font-family:'Playfair Display', serif; font-size: clamp(24px, 4.5vw, 40px); text-align:center; margin:0 0 28px; }
+    .subtle { text-align:center; color: var(--muted); margin: -8px 0 36px; }
+
+    /* Cards */
+    .cards { display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 960px){ .cards { grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 640px){ .cards { grid-template-columns: 1fr; } }
+    .card { background:white; border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); transition: transform .18s ease, box-shadow .18s ease; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,.12); }
+    .card img { width:100%; height: 240px; object-fit: cover; display:block; }
+    .card-body { padding: 16px; }
+    .card h3 { margin: 0 0 6px; font-size: 20px; }
+    .card p { margin: 0 0 10px; color: var(--muted); }
+    .tag { display:inline-block; background: var(--beige); color:#3c3c3c; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; }
+
+    /* Feature icons */
+    .features { display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; }
+    @media (max-width: 840px){ .features { grid-template-columns: 1fr; } }
+    .feature { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; display:flex; gap:16px; align-items:flex-start; }
+    .feature svg { width:28px; height:28px; color: var(--blue); flex:0 0 auto; }
+
+    /* Testimonials */
+    .testimonials { background: linear-gradient(180deg, #fff, #f5f5f5); border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+    .quote { background:#fff; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); display:flex; align-items:center; gap:16px; max-width: 800px; margin: 0 auto; }
+    .avatar { width:56px; height:56px; border-radius:50%; object-fit:cover; }
+    blockquote { margin:0; font-size: 18px; }
+    cite { display:block; margin-top:6px; color: var(--muted); font-style: normal; }
+
+    /* Footer */
+    footer { background: #0f1f24; color:#dbe6ea; }
+    .footer-grid { display:grid; grid-template-columns: 2fr 1fr 1fr; gap: 24px; padding: 50px 0; }
+    @media (max-width: 840px){ .footer-grid { grid-template-columns: 1fr; } }
+    .small { font-size:14px; color:#b7c7cd; }
+    .footer a { color:#dbe6ea; text-decoration:none; }
+
+    /* Sticky mobile CTA */
+    .sticky-cta { position: fixed; right: 18px; bottom: 18px; z-index: 45; }
+    @media (min-width: 721px){ .sticky-cta { display:none; } }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="#">
+        <span class="logo">VH</span>
+        <span>Vacation Haven</span>
+      </a>
+      <nav class="menu" aria-label="Primary">
+        <a href="#homes">Browse Homes</a>
+        <a href="#browse" onclick="go('#browse')">All Listings</a>
+        <a href="#why">Why Us</a>
+        <a href="#guide">Local Guide</a>
+        <a href="#contact">Contact</a>
+        <button class="cta" onclick="go('#booking')">Book Now</button>
+      </nav>
+      <button class="hamburger" aria-label="Open menu" onclick="drawer.classList.add('open')">☰</button>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <aside id="drawer" class="mobile-drawer">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <strong>Menu</strong>
+      <button class="cta" style="padding:6px 10px; border-radius:10px;" onclick="drawer.classList.remove('open')">Close</button>
+    </div>
+    <a href="#homes" onclick="drawer.classList.remove('open')">Browse Homes</a>
+    <a href="#browse" onclick="drawer.classList.remove('open'); go('#browse')">All Listings</a>
+    <a href="#why" onclick="drawer.classList.remove('open')">Why Us</a>
+    <a href="#guide" onclick="drawer.classList.remove('open')">Local Guide</a>
+    <a href="#contact" onclick="drawer.classList.remove('open')">Contact</a>
+    <a href="#booking" class="cta" style="display:inline-block; margin-top:16px;" onclick="drawer.classList.remove('open'); go('#booking')">Book Now</a>
+  </aside>
+
+  <!-- Hero -->
+  <section class="hero" role="banner">
+    <div class="content container">
+      <h1>Find Your Next Getaway</h1>
+      <p>Handpicked homes with hotel‑level service. Book with confidence and relax from the moment you arrive.</p>
+
+      <!-- Booking form (hero) -->
+      <form id="booking" class="booking" onsubmit="event.preventDefault(); alert('Search triggered!
+(Connect this to your booking engine when ready.)')" aria-label="Booking form">
+        <label class="field">
+          <span class="label">Check‑in</span>
+          <input class="input" type="date" required />
+        </label>
+        <label class="field">
+          <span class="label">Check‑out</span>
+          <input class="input" type="date" required />
+        </label>
+        <label class="field">
+          <span class="label">Guests</span>
+          <input class="input" type="number" min="1" value="2" required />
+        </label>
+        <button class="cta search-btn" type="submit">Search</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Featured homes (homepage preview) -->
+  <section id="homes">
+    <div class="container">
+      <h2 class="section-title">Featured Properties</h2>
+      <p class="subtle">Explore our most loved stays — curated for comfort, style, and convenience.</p>
+      <div class="cards" id="featuredGrid"></div>
+    </div>
+  </section>
+
+  <!-- Browse (All Listings) -->
+  <section id="browse" hidden>
+    <div class="container">
+      <h2 class="section-title">All Listings</h2>
+      <div class="cards" style="margin-bottom:18px;">
+        <!-- Filters -->
+        <div class="card" style="grid-column: 1 / -1; padding:16px; display:flex; gap:12px; align-items:center;">
+          <div class="field" style="flex:1; border-radius:12px;">
+            <span class="label">Min Price</span>
+            <input class="input" id="minPrice" type="number" placeholder="100" />
+          </div>
+          <div class="field" style="flex:1; border-radius:12px;">
+            <span class="label">Max Price</span>
+            <input class="input" id="maxPrice" type="number" placeholder="500" />
+          </div>
+          <div class="field" style="flex:1; border-radius:12px;">
+            <span class="label">Bedrooms</span>
+            <input class="input" id="beds" type="number" min="1" placeholder="2" />
+          </div>
+          <button class="cta" onclick="applyFilters()">Apply Filters</button>
+        </div>
+      </div>
+
+      <div id="listingGrid" class="cards"></div>
+    </div>
+  </section>
+
+  <!-- Why book with us -->
+  <section id="why" style="background: #fff7ed; border-top:1px solid #f3e8d7; border-bottom:1px solid #f3e8d7;">
+    <div class="container">
+      <h2 class="section-title">Why Book With Us</h2>
+      <div class="features">
+        <div class="feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8L21 10h-9l1-8z"/></svg>
+          <div>
+            <h3 style="margin:0 0 6px;">Fast, Easy Booking</h3>
+            <p class="small">Streamlined search and checkout with secure payments.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+          <div>
+            <h3 style="margin:0 0 6px;">Secure Payments</h3>
+            <p class="small">Your data is encrypted end‑to‑end and never stored.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H13a4 4 0 0 1 0 8H6"/></svg>
+          <div>
+            <h3 style="margin:0 0 6px;">Local Support</h3>
+            <p class="small">Friendly assistance from our on‑the‑ground team.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Property Detail (simple template) -->
+  <section id="property" hidden>
+    <div class="container">
+      <a href="#browse" onclick="go('#browse')" class="small">← Back to all listings</a>
+      <h2 class="section-title" id="propTitle">Property Title</h2>
+      <div class="cards" style="grid-template-columns: 2fr 1fr;">
+        <div class="card" style="overflow:hidden;">
+          <img id="propImage" src="" alt="Property image" />
+          <div class="card-body">
+            <h3>Amenities</h3>
+            <p id="propMeta" class="small"></p>
+            <p id="propDesc">Spacious, light‑filled interiors steps from the beach. Fast Wi‑Fi, premium linens, and fully equipped kitchen.</p>
+          </div>
+        </div>
+        <div class="card" style="position:sticky; top:90px; align-self:start;">
+          <div class="card-body">
+            <h3 style="margin-top:0">Reserve Your Stay</h3>
+            <form onsubmit="event.preventDefault(); beginBooking();">
+              <label class="field" style="border-radius:12px;">
+                <span class="label">Check‑in</span>
+                <input class="input" id="pCheckIn" type="date" required />
+              </label>
+              <label class="field" style="border-radius:12px; margin-top:8px;">
+                <span class="label">Check‑out</span>
+                <input class="input" id="pCheckOut" type="date" required />
+              </label>
+              <label class="field" style="border-radius:12px; margin-top:8px;">
+                <span class="label">Guests</span>
+                <input class="input" id="pGuests" type="number" value="2" min="1" required />
+              </label>
+              <button class="cta" style="width:100%; margin-top:12px;" type="submit">Request to Book</button>
+              <div class="small" id="priceLine" style="margin-top:8px;">From $—/night</div>
+            </form>
+            <div id="channelBtns" style="display:grid; gap:8px; margin-top:10px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">What Guests Say</h2>
+      <div class="quote">
+        <img class="avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop" alt="Guest avatar"/>
+        <div>
+          <blockquote>“Had a wonderful stay — the home was spotless, check‑in was smooth, and the view was unforgettable.”</blockquote>
+          <cite>— Emily H.</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Local guide (placeholder) -->
+  <section id="guide">
+    <div class="container">
+      <h2 class="section-title">Local Highlights</h2>
+      <p class="subtle">Dining, beaches, hikes, and family‑friendly activities within minutes.</p>
+      <div class="cards">
+        <div class="card"><img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1600&auto=format&fit=crop" alt="Beach"/><div class="card-body"><h3>Golden Beach</h3><p>Sunsets & surf lessons</p></div></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1521292270410-a8c07a3b2a42?q=80&w=1600&auto=format&fit=crop" alt="Restaurant"/><div class="card-body"><h3>Seaside Eats</h3><p>Top‑rated seafood & cocktails</p></div></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop" alt="Hike"/><div class="card-body"><h3>Vista Trail</h3><p>Scenic overlook hiking</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3 style="margin-top:0">Vacation Haven</h3>
+        <p class="small">Premium short‑term rentals with hotel‑level service. Book direct & save.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p class="small">hello@vacationhaven.co<br/>+1 (555) 123‑4567</p>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <p class="small"><a href="#homes">Browse Homes</a><br/><a href="#why">Why Us</a><br/><a href="#guide">Local Guide</a></p>
+      </div>
+    </div>
+    <div style="text-align:center; padding: 16px; border-top:1px solid rgba(255,255,255,.12);" class="small">© <span id="year"></span> Vacation Haven. All rights reserved.</div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta">
+    <button class="cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Now</button>
+  </div>
+
+  <script>
+    const drawer = document.getElementById('drawer');
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ drawer.classList.remove('open'); } });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tiny router to switch between sections by hash
+    function show(id){
+      document.getElementById('browse').hidden = id !== '#browse';
+      document.getElementById('property').hidden = id !== '#property';
+      if(id === '#browse' || id === '#property') window.scrollTo({top:0, behavior:'smooth'});
+    }
+    function go(id){
+      if(id.startsWith('#')){
+        if(id === '#booking') document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+        else { history.pushState({}, '', id); onRoute(); }
+      }
+    }
+    function onRoute(){ const h = location.hash || '#homes'; show(h); }
+    window.addEventListener('hashchange', onRoute);
+
+    // Mock data for listings + OTA links (replace with your real URLs)
+    const listings = [
+      { id:'coastal', title:'Coastal Retreat', price:240, beds:3, meta:'3 beds • 2 baths • Ocean view', img:'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'https://www.airbnb.com/h/your-coastal-retreat', vrbo:'https://www.vrbo.com/your-coastal-retreat', booking:'https://www.booking.com/hotel/us/your-coastal-retreat.html' },
+      { id:'villa', title:'Modern Villa', price:410, beds:4, meta:'4 beds • 3 baths • Private pool', img:'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'https://www.airbnb.com/h/your-modern-villa', vrbo:'https://www.vrbo.com/your-modern-villa', booking:'https://www.booking.com/hotel/us/your-modern-villa.html' },
+      { id:'mountain', title:'Mountain Escape', price:180, beds:2, meta:'2 beds • 1 bath • Fireplace', img:'https://images.unsplash.com/photo-1582582429416-58921c4b3878?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'https://www.airbnb.com/h/your-mountain-escape', vrbo:'https://www.vrbo.com/your-mountain-escape', booking:'https://www.booking.com/hotel/us/your-mountain-escape.html' },
+      { id:'bungalow', title:'Garden Bungalow', price:220, beds:2, meta:'2 beds • 1 bath • Patio', img:'https://images.unsplash.com/photo-1505691723518-36a5ac3b2d52?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'', vrbo:'', booking:'' }
+    ];
+
+    function cardFor(item){
+      return `<article class="card" onclick="openProperty('${item.id}')" style="cursor:pointer;">
+        <img src="${item.img}" alt="${item.title}"/>
+        <div class="card-body">
+          <h3>${item.title}</h3>
+          <p>${item.meta}</p>
+          <span class="tag">From $${item.price}/night</span>
+        </div>
+      </article>`;
+    }
+
+    function renderListings(data=listings){
+      const grid = document.getElementById('listingGrid');
+      if(grid) grid.innerHTML = data.map(cardFor).join('');
+      const featured = document.getElementById('featuredGrid');
+      if(featured) featured.innerHTML = listings.slice(0,3).map(cardFor).join('');
+    }
+
+    function applyFilters(){
+      const min = Number(document.getElementById('minPrice').value || 0);
+      const max = Number(document.getElementById('maxPrice').value || 1e9);
+      const beds = Number(document.getElementById('beds').value || 0);
+      const filtered = listings.filter(l => l.price>=min && l.price<=max && l.beds>=beds);
+      renderListings(filtered);
+    }
+
+    function openProperty(id){
+      const l = listings.find(x=>x.id===id);
+      if(!l) return;
+      document.getElementById('propTitle').textContent = l.title;
+      document.getElementById('propImage').src = l.img;
+      document.getElementById('propImage').alt = l.title;
+      document.getElementById('propMeta').textContent = l.meta;
+      document.getElementById('priceLine').textContent = `From $${l.price}/night`;
+      renderChannelButtons(l);
+      go('#property');
+    }
+
+    function beginBooking(){
+      // Preferred channel order: Airbnb → Vrbo → Booking.com
+      const t = document.getElementById('propTitle').textContent;
+      const l = listings.find(x=>x.title===t);
+      const url = l?.airbnb || l?.vrbo || l?.booking || '';
+      if(url){ window.open(url, '_blank', 'noopener'); }
+      else { alert('Add an Airbnb/Vrbo/Booking.com link for this property, or connect a direct booking engine.'); }
+    }
+
+    function renderChannelButtons(l){
+      const el = document.getElementById('channelBtns');
+      if(!el) return;
+      const btn = (label, url) => url ? `<a class="cta" style="text-align:center; display:block; text-decoration:none;" target="_blank" rel="noopener nofollow" href="${url}">Book on ${label}</a>` : '';
+      el.innerHTML = [btn('Airbnb', l.airbnb), btn('Vrbo', l.vrbo), btn('Booking.com', l.booking)]
+        .filter(Boolean)
+        .join('');
+    }
+
+    // Initial render
+    renderListings();
+    onRoute();
+  </script>
+</body>
+</html>
