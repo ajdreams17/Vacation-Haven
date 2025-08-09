@@ -293,4 +293,171 @@
   <section id="guide">
     <div class="container">
       <h2 class="section-title">Local Highlights</h2>
-      <p class="subtle">Dining, beaches, hikes, and
+      <p class="subtle">Dining, beaches, hikes, and family-friendly activities within minutes.</p>
+      <div class="cards">
+        <div class="card"><img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1600&auto=format&fit=crop" alt="Beach"/><div class="card-body"><h3>Golden Beach</h3><p>Sunsets & surf lessons</p></div></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1521292270410-a8c07a3b2a42?q=80&w=1600&auto=format&fit=crop" alt="Restaurant"/><div class="card-body"><h3>Seaside Eats</h3><p>Top-rated seafood & cocktails</p></div></div>
+        <div class="card"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop" alt="Hike"/><div class="card-body"><h3>Vista Trail</h3><p>Scenic overlook hiking</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3 style="margin-top:0">Vacation Haven</h3>
+        <p class="small">Premium short-term rentals with hotel-level service. Book direct & save.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p class="small">hello@vacationhaven.co<br/>+1 (555) 123-4567</p>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <p class="small"><a href="#homes">Browse Homes</a><br/><a href="#why">Why Us</a><br/><a href="#guide">Local Guide</a></p>
+      </div>
+    </div>
+    <div style="text-align:center; padding: 16px; border-top:1px solid rgba(255,255,255,.12);" class="small">© <span id="year"></span> Vacation Haven. All rights reserved.</div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta">
+    <button class="cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Now</button>
+  </div>
+
+  <script>
+    const drawer = document.getElementById('drawer');
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ drawer.classList.remove('open'); } });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------------- Router (hash URLs) ----------------
+    // Routes:
+    //   #/listings/:id   -> property page
+    //   #/browse         -> all listings
+    //   (no hash)        -> homepage
+
+    function showSection(id){
+      document.getElementById('browse').hidden   = id !== '#browse';
+      document.getElementById('property').hidden = id !== '#property';
+      if(id === '#browse' || id === '#property'){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function go(hash){
+      if(hash === '#booking'){
+        document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+      } else {
+        history.pushState({}, '', hash);
+        route();
+      }
+    }
+
+    function renderProperty(l){
+      document.getElementById('propTitle').textContent = l.title;
+      document.getElementById('propImage').src = l.img;
+      document.getElementById('propImage').alt = l.title;
+      document.getElementById('propMeta').textContent = l.meta;
+      document.getElementById('priceLine').textContent = `From $${l.price}/night`;
+      renderChannelButtons(l);
+      document.title = `${l.title} · Vacation Haven`;
+      // Prefill contact page with the property slug
+      document.getElementById('contactBtn').href = '/contact.html?property=' + encodeURIComponent(l.id);
+    }
+
+    // Programmatic open helper (not used by cards, but handy)
+    function openProperty(id){
+      location.hash = `#/listings/${id}`;
+    }
+
+    function route(){
+      const h = location.hash || '';
+      // Match #/listings/:id
+      const m = h.match(/^#\/listings\/([^?#]+)/);
+      if(m){
+        const id = decodeURIComponent(m[1]);
+        const l = listings.find(x => x.id === id);
+        if(l){
+          renderProperty(l);
+          showSection('#property');
+          return;
+        } else {
+          showSection('#browse');
+          return;
+        }
+      }
+
+      if(h === '#/browse' || h === '#browse'){
+        showSection('#browse');
+      } else {
+        // homepage (hide browse & property)
+        showSection('#homes');
+      }
+    }
+
+    window.addEventListener('hashchange', route);
+
+    // ---------------- Data ----------------
+    const listings = [
+      { id:'coastal', title:'Family-Friendly Orange Getaway Near Disneyland | Patio & Fireplace', price:240, beds:3, meta:'3 beds • 2 baths • Ocean view', img:'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'https://www.airbnb.com/rooms/953523531365374164?check_in=2025-08-09&check_out=2025-08-14&guests=1&adults=1&s=67&unique_share_id=94ab5198-fdb1-4165-ab14-0ff62a832694', vrbo:'https://www.vrbo.com/your-coastal-retreat', booking:'https://www.booking.com/hotel/us/your-coastal-retreat.html' },
+      { id:'villa', title:'Modern Villa', price:410, beds:4, meta:'4 beds • 3 baths • Private pool', img:'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'https://www.airbnb.com/h/your-modern-villa', vrbo:'https://www.vrbo.com/your-modern-villa', booking:'https://www.booking.com/hotel/us/your-modern-villa.html' },
+      { id:'mountain', title:'Mountain Escape', price:180, beds:2, meta:'2 beds • 1 bath • Fireplace', img:'https://images.unsplash.com/photo-1582582429416-58921c4b3878?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'https://www.airbnb.com/h/your-mountain-escape', vrbo:'https://www.vrbo.com/your-mountain-escape', booking:'https://www.booking.com/hotel/us/your-mountain-escape.html' },
+      { id:'bungalow', title:'Garden Bungalow', price:220, beds:2, meta:'2 beds • 1 bath • Patio', img:'https://images.unsplash.com/photo-1505691723518-36a5ac3b2d52?q=80&w=1600&auto=format&fit=crop',
+        airbnb:'', vrbo:'', booking:'' }
+    ];
+
+    // ---------------- UI helpers ----------------
+    function cardFor(item){
+      return `
+        <a class="card" href="#/listings/${item.id}" style="cursor:pointer; text-decoration:none; color:inherit;">
+          <img src="${item.img}" alt="${item.title}"/>
+          <div class="card-body">
+            <h3>${item.title}</h3>
+            <p>${item.meta}</p>
+            <span class="tag">From $${item.price}/night</span>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderListings(data=listings){
+      const grid = document.getElementById('listingGrid');
+      if(grid) grid.innerHTML = data.map(cardFor).join('');
+      const featured = document.getElementById('featuredGrid');
+      if(featured) featured.innerHTML = listings.slice(0,3).map(cardFor).join('');
+    }
+
+    function applyFilters(){
+      const min = Number(document.getElementById('minPrice').value || 0);
+      const max = Number(document.getElementById('maxPrice').value || 1e9);
+      const beds = Number(document.getElementById('beds').value || 0);
+      const filtered = listings.filter(l => l.price>=min && l.price<=max && l.beds>=beds);
+      renderListings(filtered);
+    }
+
+    function beginBooking(){
+      const t = document.getElementById('propTitle').textContent;
+      const l = listings.find(x=>x.title===t);
+      const url = l?.airbnb || l?.vrbo || l?.booking || '';
+      if(url){ window.open(url, '_blank', 'noopener'); }
+      else { alert('Add an Airbnb/Vrbo/Booking.com link for this property, or connect a direct booking engine.'); }
+    }
+
+    function renderChannelButtons(l){
+      const el = document.getElementById('channelBtns');
+      if(!el) return;
+      const btn = (label, url) => url ? `<a class="cta" style="text-align:center; display:block; text-decoration:none;" target="_blank" rel="noopener nofollow" href="${url}">Book on ${label}</a>` : '';
+      el.innerHTML = [btn('Airbnb', l.airbnb), btn('Vrbo', l.vrbo), btn('Booking.com', l.booking)]
+        .filter(Boolean).join('');
+    }
+
+    // ---------------- Boot ----------------
+    renderListings();
+    route(); // handle direct hits like #/listings/coastal
+  </script>
+</body>
+</html>
