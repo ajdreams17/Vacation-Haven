@@ -1,0 +1,7 @@
+# Netlify redirects for Vacation Haven
+
+# 1) Single Page App routing (send all paths to index.html)
+/*  /index.html  200
+
+# 2) Enforce HTTPS (optional but recommended)
+http://*  https://:splat  301
