@@ -355,14 +355,18 @@
     }
 
     function renderProperty(l){
-      document.getElementById('propTitle').textContent = l.title;
-      document.getElementById('propImage').src = l.img;
-      document.getElementById('propImage').alt = l.title;
-      document.getElementById('propMeta').textContent = l.meta;
-      document.getElementById('priceLine').textContent = `From $${l.price}/night`;
-      renderChannelButtons(l);
-      document.title = `${l.title} · Vacation Haven`;
-    }
+  document.getElementById('propTitle').textContent = l.title;
+  document.getElementById('propImage').src = l.img;
+  document.getElementById('propImage').alt = l.title;
+  document.getElementById('propMeta').textContent = l.meta;
+  document.getElementById('priceLine').textContent = `From $${l.price}/night`;
+  renderChannelButtons(l);
+  document.title = `${l.title} · Vacation Haven`;
+  
+  // NEW: prefill contact page with the property slug
+  document.getElementById('contactBtn').href = '/contact.html?property=' + encodeURIComponent(l.id);
+}
+
 
     // Programmatic open helper (not used by cards, but handy)
     function openProperty(id){
