@@ -351,16 +351,18 @@
         airbnb:'', vrbo:'', booking:'' }
     ];
 
-    function cardFor(item){
-      return `<article class="card" onclick="openProperty('${item.id}')" style="cursor:pointer;">
-        <img src="${item.img}" alt="${item.title}"/>
-        <div class="card-body">
-          <h3>${item.title}</h3>
-          <p>${item.meta}</p>
-          <span class="tag">From $${item.price}/night</span>
-        </div>
-      </article>`;
-    }
+   function cardFor(item){
+  return `
+    <a class="card" href="#/listings/${item.id}" style="cursor:pointer; text-decoration:none; color:inherit;">
+      <img src="${item.img}" alt="${item.title}"/>
+      <div class="card-body">
+        <h3>${item.title}</h3>
+        <p>${item.meta}</p>
+        <span class="tag">From $${item.price}/night</span>
+      </div>
+    </a>
+  `;
+}
 
     function renderListings(data=listings){
       const grid = document.getElementById('listingGrid');
