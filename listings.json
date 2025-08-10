@@ -1,0 +1,67 @@
+[
+  {
+    "id": "coastal",
+    "title": "Family-Friendly Orange Getaway Near Disneyland | Patio & Fireplace",
+    "price": 240,
+    "beds": 3,
+    "baths": 2,
+    "meta": "3 beds • 2 baths • Ocean view",
+    "desc": "Bright, family-ready home with patio, fireplace, fast Wi-Fi, and fully equipped kitchen. Minutes to Disneyland and dining.",
+    "img": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1600&auto=format&fit=crop"
+    ],
+    "airbnb": "https://www.airbnb.com/rooms/953523531365374164",
+    "vrbo": "https://www.vrbo.com/your-coastal-retreat",
+    "booking": "https://www.booking.com/hotel/us/your-coastal-retreat.html"
+  },
+  {
+    "id": "villa",
+    "title": "Modern Villa",
+    "price": 410,
+    "beds": 4,
+    "baths": 3,
+    "meta": "4 beds • 3 baths • Private pool",
+    "desc": "Contemporary villa with floor-to-ceiling windows, chef’s kitchen, and a private pool. Perfect for groups.",
+    "img": "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1600&auto=format&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1600&auto=format&fit=crop"
+    ],
+    "airbnb": "https://www.airbnb.com/h/your-modern-villa",
+    "vrbo": "https://www.vrbo.com/your-modern-villa",
+    "booking": "https://www.booking.com/hotel/us/your-modern-villa.html"
+  },
+  {
+    "id": "mountain",
+    "title": "Mountain Escape",
+    "price": 180,
+    "beds": 2,
+    "baths": 1,
+    "meta": "2 beds • 1 bath • Fireplace",
+    "desc": "Cozy A-frame with fireplace and forest views. Great hiking and star-gazing nearby.",
+    "img": "https://images.unsplash.com/photo-1582582429416-58921c4b3878?q=80&w=1600&auto=format&fit=crop",
+    "gallery": [
+      "https://images.unsplash.com/photo-1582582429416-58921c4b3878?q=80&w=1600&auto=format&fit=crop"
+    ],
+    "airbnb": "https://www.airbnb.com/h/your-mountain-escape",
+    "vrbo": "https://www.vrbo.com/your-mountain-escape",
+    "booking": "https://www.booking.com/hotel/us/your-mountain-escape.html"
+  },
+  {
+    "id": "bungalow",
+    "title": "Garden Bungalow",
+    "price": 220,
+    "beds": 2,
+    "baths": 1,
+    "meta": "2 beds • 1 bath • Patio",
+    "desc": "Charming bungalow with lush garden patio and airy interiors. Walkable to cafes.",
+    "img": "https://images.unsplash.com/photo-1505691723518-36a5ac3b2d52?q=80&w=1600&auto=format&fit=crop",
+    "gallery": [],
+    "airbnb": "",
+    "vrbo": "",
+    "booking": ""
+  }
+]
