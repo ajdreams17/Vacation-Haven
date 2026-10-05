@@ -1,538 +1,417 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vacation Haven – Find Your Next Getaway</title>
-  <meta name="description" content="Modern short-term rental site template for Vacation Haven. Responsive, fast, and beginner-friendly." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Co-Host">
+<meta name="theme-color" content="#0F6E5D">
+<title>Co-Host Messages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#F3F5F4; --surface:#FFFFFF; --ink:#14211D; --muted:#4F5E58; --line:#DCE3E0; --field:#C9D3CF;
+  --accent:#0F6E5D; --on-accent:#FFFFFF; --soft:#E3EEEA; --warn-bg:#FCEBD7; --warn:#7A3F06; --done:#14211D; --on-done:#FFFFFF;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1714; --surface:#18221F; --ink:#E8EFEC; --muted:#A3B3AD; --line:#2A3833; --field:#3A4A44;
+    --accent:#3FB59C; --on-accent:#08201A; --soft:#1F3330; --warn-bg:#3A2A17; --warn:#F5C38A; --done:#E8EFEC; --on-done:#0F1714;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1714; --surface:#18221F; --ink:#E8EFEC; --muted:#A3B3AD; --line:#2A3833; --field:#3A4A44;
+  --accent:#3FB59C; --on-accent:#08201A; --soft:#1F3330; --warn-bg:#3A2A17; --warn:#F5C38A; --done:#E8EFEC; --on-done:#0F1714;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px); height:100%; background:var(--ground)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0; height:100%; background:var(--ground); color:var(--ink);
+  font-family:'Figtree','Helvetica Neue',Helvetica,system-ui,sans-serif; font-size:16px; -webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit; color:inherit}
+:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+.app{height:100%; max-width:520px; margin:0 auto; display:flex; flex-direction:column; background:var(--ground)}
+.view{flex:1; min-height:0; display:flex; flex-direction:column}
+.view[hidden]{display:none}
+.scroll{flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch}
+.bar{background:var(--surface); border-top:1px solid var(--line); padding:12px 20px 16px; display:flex; flex-direction:column; gap:8px}
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+/* home */
+.home-head{padding:24px 20px 14px; display:flex; flex-direction:column; gap:14px}
+.home-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
+.kicker{font-size:14px; font-weight:600; color:var(--muted)}
+h1{margin:4px 0 0; font-size:30px; line-height:1.12; font-weight:800; letter-spacing:-0.01em}
+.chips{display:flex; gap:8px; flex-wrap:wrap}
+.chip{padding:7px 12px; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-size:14px; font-weight:600}
+.search{display:flex; align-items:center; gap:10px; height:52px; padding:0 14px; border-radius:14px; background:var(--surface); border:1px solid var(--field)}
+.search input{flex:1; min-width:0; border:0; outline:none; background:transparent; font-size:17px}
+.list{padding:0 20px 20px; display:flex; flex-direction:column; gap:10px}
+.list-label{font-size:14px; font-weight:600; color:var(--muted)}
+.prop{display:flex; align-items:center; gap:14px; width:100%; min-height:72px; padding:12px 14px; border:1px solid var(--line); border-radius:16px; background:var(--surface); text-align:left; cursor:pointer}
+.prop:active{transform:scale(.99)}
+.num{flex:none; width:40px; height:40px; border-radius:12px; background:var(--soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-weight:800}
+.prop-text{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px}
+.prop-name{font-size:16px; font-weight:700; line-height:1.25}
+.prop-meta{font-size:14px; color:var(--muted)}
+.tag{align-self:flex-start; margin-top:3px; padding:3px 8px; border-radius:6px; background:var(--warn-bg); color:var(--warn); font-size:12px; font-weight:700}
+.empty{padding:24px 4px; color:var(--muted); line-height:1.5}
+.icon-btn{flex:none; width:44px; height:44px; border:0; border-radius:12px; background:transparent; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink)}
+.icon-btn.boxed{background:var(--surface); border:1px solid var(--line)}
+.outline-btn{display:flex; align-items:center; justify-content:center; gap:10px; height:52px; border-radius:14px; border:1.5px solid var(--ink); background:transparent; color:var(--ink); text-decoration:none; font-size:16px; font-weight:700; cursor:pointer; width:100%}
 
-  <style>
-    :root {
-      --blue: #2c5f6b;
-      --beige: #e6d5b8;
-      --coral: #ff6b6b;
-      --offwhite: #fafafa;
-      --charcoal: #333333;
-      --muted: #6b7280;
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
-      --radius: 16px;
-    }
+/* detail */
+.top{padding:10px 12px; display:flex; align-items:center; gap:6px; background:var(--surface); border-bottom:1px solid var(--line)}
+.top-text{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px}
+.top-name{font-size:18px; font-weight:800; line-height:1.2}
+.top-meta{font-size:14px; color:var(--muted)}
+.body{padding:18px 20px 24px; display:flex; flex-direction:column; gap:24px}
+.step{display:flex; flex-direction:column; gap:10px}
+.step-title{font-size:15px; font-weight:700}
+.step-title b{color:var(--accent); margin-right:6px}
+.tabs{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+.tab{min-height:68px; padding:10px 6px; border-radius:14px; border:2px solid var(--line); background:var(--surface); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px}
+.tab span:first-child{font-size:16px; font-weight:800}
+.tab span:last-child{font-size:12px; font-weight:500; color:var(--muted)}
+.tab[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+.tab[aria-pressed="true"] span:last-child{color:var(--on-accent)}
+label.field-label{font-size:14px; font-weight:600; color:var(--muted)}
+.field{height:52px; padding:0 14px; border-radius:14px; border:1px solid var(--field); background:var(--surface); font-size:17px; width:100%}
+.field:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--soft)}
+.warn{padding:10px 12px; border-radius:12px; background:var(--warn-bg); color:var(--warn); font-size:14px; font-weight:600; line-height:1.4}
+.bubble{padding:16px; border-radius:16px 16px 16px 4px; background:var(--surface); border:1px solid var(--line); font-size:15px; line-height:1.55; white-space:pre-wrap; overflow-wrap:anywhere}
+.bubble mark{background:var(--warn-bg); color:var(--warn); border-radius:4px; padding:0 3px; font-weight:600}
+.preview-head{display:flex; justify-content:space-between; align-items:center; gap:8px}
+.link-btn{border:0; background:transparent; color:var(--accent); font-weight:700; font-size:15px; padding:10px 4px; min-height:44px; cursor:pointer}
+textarea.editor{width:100%; min-height:260px; padding:14px; border-radius:14px; border:1px solid var(--field); background:var(--surface); font-size:15px; line-height:1.5; resize:vertical}
+textarea.editor:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--soft)}
+.row{display:flex; gap:8px}
+.row > *{flex:1}
+.small{font-size:13px; line-height:1.45; color:var(--muted)}
+.primary{height:58px; border:0; border-radius:16px; background:var(--accent); color:var(--on-accent); font-size:18px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; width:100%}
+.primary.done{background:var(--done); color:var(--on-done)}
+.primary:disabled{background:var(--line); color:var(--muted); font-size:16px; font-weight:700; cursor:not-allowed}
+.secondary{height:48px; border-radius:14px; border:1.5px solid var(--field); background:var(--surface); font-size:16px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px}
+.bar .small{text-align:center}
+.dates-head{display:flex; justify-content:space-between; align-items:center; gap:10px}
+.mode{display:flex; padding:3px; border-radius:12px; background:var(--line); gap:2px}
+.mode-btn{border:0; background:transparent; min-height:38px; padding:0 12px; border-radius:9px; font-size:14px; font-weight:700; color:var(--muted); cursor:pointer}
+.mode-btn[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.cal{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
+.cal-col{display:flex; flex-direction:column; gap:8px; min-width:0}
+.cal .field{font-size:16px; padding:0 10px; -webkit-appearance:none; appearance:none; min-height:52px; display:flex; align-items:center}
+.cal .field::-webkit-date-and-time-value{text-align:left}
+#calInfo.err{color:var(--warn); font-weight:600}
+.visually-hidden{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
 
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body { font-family: Lato, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans"; color: var(--charcoal); background: var(--offwhite); line-height: 1.6; }
-
-    /* Header */
-    .header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(8px); background: rgba(250,250,250,.85); border-bottom: 1px solid rgba(0,0,0,.06); }
-    .container { width: min(1120px, 92%); margin: 0 auto; }
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
-    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; color: var(--blue); font-weight: 800; }
-    .brand-logo { height:64px; width:auto; display:block; }
-    .menu { display:flex; align-items:center; gap: 22px; }
-    .menu a { color:#333; text-decoration:none; font-weight:600; }
-    .cta { background: var(--coral); color:white; padding: 10px 16px; border-radius: 999px; border: none; font-family:Poppins, sans-serif; font-weight:700; cursor:pointer; box-shadow: var(--shadow); }
-
-    .hamburger { display:none; background:none; border:none; font-size:26px; }
-    @media (max-width: 840px) { .menu { display:none; } .hamburger { display:block; } }
-
-    .mobile-drawer { position: fixed; inset: 0 0 0 auto; width: 80%; max-width: 320px; background:white; box-shadow: var(--shadow); transform: translateX(100%); transition: transform .25s ease; z-index: 60; padding: 24px; }
-    .mobile-drawer.open { transform: translateX(0); }
-    .mobile-drawer a { display:block; padding: 12px 0; color:#333; text-decoration:none; font-weight:600; border-bottom: 1px solid #eee; }
-
-    /* Hero */
-    .hero { position: relative; min-height: 72vh; display:grid; place-items:center; }
-    .hero::before { content:""; position:absolute; inset:0; background: url('https://images.unsplash.com/photo-1600585154356-c7b26d6c997a?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; filter: brightness(.65); }
-    .hero::after { content:""; position:absolute; inset:0; background: rgba(0,0,0,0.35); z-index: 0; }
-    .hero .content { position:relative; z-index:1; text-align: center; color:white; padding: 40px 0; }
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 60px); line-height: 1.1; margin: 0 0 16px; }
-    .hero p { font-size: clamp(16px, 2.5vw, 20px); opacity:.95; margin: 0 0 24px; }
-
-    /* Booking Bar */
-    .booking {
-      background: #fff;
-      border-radius: 999px;
-      padding: 10px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      width: min(840px, 96%);
-      margin: 0 auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,.15);
-      position: relative;
-      z-index: 1;
-    }
-
-    .field { position: relative; flex: 1; background: #fff; border: 1px solid #eee; border-radius: 999px; padding: 10px 16px; display: flex; flex-direction: column; }
-    .label { font-size: 12px; color: #6b7280; }
-    .input { border: none; outline: none; font-size: 16px; background: transparent; padding-top: 2px; }
-    .search-btn { background: #f06f52; color: #fff; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 700; cursor: pointer; }
-
-    @media (max-width: 840px){
-      .booking { border-radius: 16px; flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; }
-      .search-btn { width: 100%; padding: 14px 18px; }
-    }
-
-    /* Sections */
-    section { padding: 72px 0; }
-    .section-title { font-family:'Playfair Display', serif; font-size: clamp(24px, 4.5vw, 40px); text-align:center; margin:0 0 28px; }
-    .subtle { text-align:center; color: var(--muted); margin: -8px 0 36px; }
-
-    /* Cards */
-    .cards { display:grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    @media (max-width: 960px){ .cards { grid-template-columns: repeat(2, 1fr);} }
-    @media (max-width: 640px){ .cards { grid-template-columns: 1fr; } }
-    .card { background:white; border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); transition: transform .18s ease, box-shadow .18s ease; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,.12); }
-    .card img { width:100%; height: 240px; object-fit: cover; display:block; }
-    .card-body { padding: 16px; }
-    .card h3 { margin: 0 0 6px; font-size: 20px; }
-    .card p { margin: 0 0 10px; color: var(--muted); }
-    .tag { display:inline-block; background: var(--beige); color:#3c3c3c; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; }
-
-    /* Feature icons */
-    .features { display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; }
-    @media (max-width: 840px){ .features { grid-template-columns: 1fr; } }
-    .feature { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; display:flex; gap:16px; align-items:flex-start; }
-    .feature svg { width:28px; height:28px; color: var(--blue); flex:0 0 auto; }
-
-    /* Testimonials */
-    .testimonials { background: linear-gradient(180deg, #fff, #f5f5f5); border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
-    .quote { background:#fff; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); display:flex; align-items:center; gap:16px; max-width: 800px; margin: 0 auto; }
-    .avatar { width:56px; height:56px; border-radius:50%; object-fit:cover; }
-    blockquote { margin:0; font-size: 18px; }
-    cite { display:block; margin-top:6px; color: var(--muted); font-style: normal; }
-
-    /* Footer */
-    footer { background: #0f1f24; color:#dbe6ea; }
-    .footer-grid { display:grid; grid-template-columns: 2fr 1fr 1fr; gap: 24px; padding: 50px 0; }
-    @media (max-width: 840px){ .footer-grid { grid-template-columns: 1fr; } }
-    .small { font-size:14px; color:#b7c7cd; }
-    .footer a { color:#dbe6ea; text-decoration:none; }
-
-    /* Sticky mobile CTA */
-    .sticky-cta { position: fixed; right: 18px; bottom: 18px; z-index: 45; }
-    @media (min-width: 721px){ .sticky-cta { display:none; } }
-  </style>
+/* settings sheet */
+dialog{border:0; padding:0; width:min(520px,100%); max-width:100%; margin:auto auto 0; border-radius:22px 22px 0 0; background:var(--surface); color:var(--ink)}
+dialog::backdrop{background:rgba(10,20,16,.45)}
+.sheet{padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; gap:12px}
+.sheet h2{margin:0 0 4px; font-size:22px; font-weight:800}
+.toast{position:fixed; left:50%; bottom:calc(110px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%) translateY(10px); opacity:0; background:var(--done); color:var(--on-done); padding:12px 18px; border-radius:12px; font-weight:700; font-size:15px; pointer-events:none; transition:opacity .2s, transform .2s; max-width:90vw; text-align:center}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}.prop:active{transform:none}}
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="container nav">
-      <a class="brand" href="/">
-        <img src="vacation_haven.png" alt="Vacation Haven" class="brand-logo" />
-        <span>Vacation Haven</span>
-      </a>
-      <nav class="menu" aria-label="Primary">
-        <a href="#homes">Browse Homes</a>
-        <a href="#/browse" onclick="go('#/browse')">All Listings</a>
-        <a href="#why">Why Us</a>
-        <a href="#guide">Local Guide</a>
-        <a href="/contact.html">Contact</a>
-        <button class="cta" onclick="go('#booking')">Book Now</button>
-      </nav>
-      <button class="hamburger" aria-label="Open menu" onclick="drawer.classList.add('open')">☰</button>
-    </div>
-  </header>
+<div class="app">
 
-  <!-- Mobile drawer -->
-  <aside id="drawer" class="mobile-drawer">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <strong>Menu</strong>
-      <button class="cta" style="padding:6px 10px; border-radius:10px;" onclick="drawer.classList.remove('open')">Close</button>
-    </div>
-    <a href="#homes" onclick="drawer.classList.remove('open')">Browse Homes</a>
-    <a href="#/browse" onclick="drawer.classList.remove('open'); go('#/browse')">All Listings</a>
-    <a href="#why" onclick="drawer.classList.remove('open')">Why Us</a>
-    <a href="#guide" onclick="drawer.classList.remove('open')">Local Guide</a>
-    <a href="/contact.html" onclick="drawer.classList.remove('open')">Contact</a>
-    <a href="https://www.airbnb.com/rooms/953523531365374164?check_in=2025-08-09&check_out=2025-08-14&guests=1&adults=1&s=67&unique_share_id=0368539d-3cd4-4b4a-a768-e72341375de6" target="_blank" rel="noopener noreferrer" style="padding: 10px 20px; background-color: #FF5A5F; color: white; text-decoration: none; border-radius: 5px;">
-      Book on Airbnb
-    </a>
-  </aside>
-
-  <!-- Hero -->
-  <section class="hero" role="banner">
-    <div class="content container">
-      <h1>Find Your Next Getaway</h1>
-      <p>Handpicked homes with hotel-level service. Book with confidence and relax from the moment you arrive.</p>
-
-      <!-- Booking form (hero) -->
-      <form id="booking" class="booking" onsubmit="event.preventDefault(); alert('Search triggered! (Connect a booking engine when ready.)')" aria-label="Booking form">
-        <label class="field">
-          <span class="label">Check-in</span>
-          <input class="input" type="date" required />
-        </label>
-        <label class="field">
-          <span class="label">Check-out</span>
-          <input class="input" type="date" required />
-        </label>
-        <label class="field">
-          <span class="label">Guests</span>
-          <input class="input" type="number" min="1" value="2" required />
-        </label>
-        <button class="cta search-btn" type="submit">Search</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Featured homes (homepage preview) -->
-  <section id="homes">
-    <div class="container">
-      <h2 class="section-title">Featured Properties</h2>
-      <p class="subtle">Explore our most loved stays — curated for comfort, style, and convenience.</p>
-      <div class="cards" id="featuredGrid"></div>
-    </div>
-  </section>
-
-  <!-- Browse (All Listings) -->
-  <section id="browse" hidden>
-    <div class="container">
-      <h2 class="section-title">All Listings</h2>
-      <div class="cards" style="margin-bottom:18px;">
-        <!-- Filters -->
-        <div class="card" style="grid-column: 1 / -1; padding:16px; display:flex; gap:12px; align-items:center;">
-          <div class="field" style="flex:1; border-radius:12px;">
-            <span class="label">Min Price</span>
-            <input class="input" id="minPrice" type="number" placeholder="100" />
-          </div>
-          <div class="field" style="flex:1; border-radius:12px;">
-            <span class="label">Max Price</span>
-            <input class="input" id="maxPrice" type="number" placeholder="500" />
-          </div>
-          <div class="field" style="flex:1; border-radius:12px;">
-            <span class="label">Bedrooms</span>
-            <input class="input" id="beds" type="number" min="1" placeholder="2" />
-          </div>
-          <button class="cta" onclick="applyFilters()">Apply Filters</button>
-        </div>
-      </div>
-
-      <div id="listingGrid" class="cards"></div>
-    </div>
-  </section>
-
-  <!-- Why book with us -->
-  <section id="why" style="background: #fff7ed; border-top:1px solid #f3e8d7; border-bottom:1px solid #f3e8d7;">
-    <div class="container">
-      <h2 class="section-title">Why Book With Us</h2>
-      <div class="features">
-        <div class="feature">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8L21 10h-9l1-8z"/></svg>
-          <div>
-            <h3 style="margin:0 0 6px;">Fast, Easy Booking</h3>
-            <p class="small">Streamlined search and checkout with secure payments.</p>
-          </div>
-        </div>
-        <div class="feature">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
-          <div>
-            <h3 style="margin:0 0 6px;">Secure Payments</h3>
-            <p class="small">Your data is encrypted end-to-end and never stored.</p>
-          </div>
-        </div>
-        <div class="feature">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H13a4 4 0 0 1 0 8H6"/></svg>
-          <div>
-            <h3 style="margin:0 0 6px;">Local Support</h3>
-            <p class="small">Friendly assistance from our on-the-ground team.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Property Detail -->
-  <section id="property" hidden>
-    <div class="container">
-      <a href="#/browse" onclick="go('#/browse')" class="small">← Back to all listings</a>
-      <h2 class="section-title" id="propTitle">Property Title</h2>
-      <div class="cards" style="grid-template-columns: 2fr 1fr;">
-        <div class="card" style="overflow:hidden;">
-          <img id="propImage" src="" alt="Property image" />
-          <div class="card-body">
-            <h3>Amenities</h3>
-            <p id="propMeta" class="small"></p>
-            <p id="propDesc">Spacious, light-filled interiors steps from the beach. Fast Wi-Fi, premium linens, and fully equipped kitchen.</p>
-          </div>
-        </div>
-        <div class="card" style="position:sticky; top:90px; align-self:start;">
-          <div class="card-body">
-            <h3 style="margin-top:0">Reserve Your Stay</h3>
-            <form onsubmit="event.preventDefault(); beginBooking();">
-              <label class="field" style="border-radius:12px;">
-                <span class="label">Check-in</span>
-                <input class="input" id="pCheckIn" type="date" required />
-              </label>
-              <label class="field" style="border-radius:12px; margin-top:8px;">
-                <span class="label">Check-out</span>
-                <input class="input" id="pCheckOut" type="date" required />
-              </label>
-              <label class="field" style="border-radius:12px; margin-top:8px;">
-                <span class="label">Guests</span>
-                <input class="input" id="pGuests" type="number" value="2" min="1" required />
-              </label>
-              <button class="cta" style="width:100%; margin-top:12px;" type="submit">Request to Book</button>
-              <div class="small" id="priceLine" style="margin-top:8px;">From $—/night</div>
-            </form>
-
-            <!-- Single Contact button (prefilled via JS) -->
-            <a id="contactBtn"
-               class="cta"
-               style="width:100%; margin-top:10px; text-align:center; display:block; text-decoration:none;"
-               href="/contact.html">
-              Contact us about this property
-            </a>
-
-            <div id="channelBtns" style="display:grid; gap:8px; margin-top:10px;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section class="testimonials">
-    <div class="container">
-      <h2 class="section-title">What Guests Say</h2>
-      <div class="quote">
-        <img class="avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop" alt="Guest avatar"/>
+  <section class="view" id="home" aria-label="Properties">
+    <div class="home-head">
+      <div class="home-top">
         <div>
-          <blockquote>“Had a wonderful stay — the home was spotless, check-in was smooth, and the view was unforgettable.”</blockquote>
-          <cite>— Emily H.</cite>
+          <div class="kicker">Co-host</div>
+          <h1>Send a guest message</h1>
+        </div>
+        <button class="icon-btn boxed" id="openSettings" aria-label="Settings">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"></path></svg>
+        </button>
+      </div>
+      <div class="chips"><span class="chip">Check-in 3 PM</span><span class="chip">Checkout 11 AM</span></div>
+      <label class="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="color:var(--muted)"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <input id="q" type="search" placeholder="Find a property" aria-label="Find a property" autocomplete="off">
+      </label>
+    </div>
+    <div class="scroll">
+      <div class="list" id="list"></div>
+    </div>
+    <div class="bar">
+      <a class="outline-btn" id="ownerBtn" href="#">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"></path><path d="M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path></svg>
+        <span id="ownerLabel">Problem? Contact the owner</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="view" id="detail" aria-label="Message" hidden>
+    <div class="top">
+      <button class="icon-btn" id="back" aria-label="Back to properties">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+      </button>
+      <div class="top-text"><span class="top-name" id="dName"></span><span class="top-meta" id="dMeta"></span></div>
+    </div>
+    <div class="scroll" id="dScroll">
+      <div class="body">
+        <div class="step">
+          <span class="step-title"><b>1</b>Which message?</span>
+          <div class="tabs" role="group" aria-label="Message type">
+            <button class="tab" data-tab="w"><span>Welcome</span><span>After booking</span></button>
+            <button class="tab" data-tab="i"><span>Check-in</span><span>Arrival day</span></button>
+            <button class="tab" data-tab="o"><span>Checkout</span><span>Morning of</span></button>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-title"><b>2</b>Guest details</span>
+          <label class="field-label" for="gName">Guest first name</label>
+          <input class="field" id="gName" type="text" placeholder="e.g. Maria" autocomplete="off" autocapitalize="words">
+          <div class="step" id="datesWrap">
+            <div class="dates-head">
+              <span class="field-label" id="datesLbl">Stay dates</span>
+              <div class="mode" role="group" aria-labelledby="datesLbl">
+                <button type="button" class="mode-btn" data-mode="cal" aria-pressed="true">Calendar</button>
+                <button type="button" class="mode-btn" data-mode="type" aria-pressed="false">Type it</button>
+              </div>
+            </div>
+            <div id="calWrap" class="cal">
+              <div class="cal-col">
+                <label class="field-label" for="dIn">Check-in</label>
+                <input class="field" id="dIn" type="date">
+              </div>
+              <div class="cal-col">
+                <label class="field-label" for="dOut">Checkout</label>
+                <input class="field" id="dOut" type="date">
+              </div>
+            </div>
+            <span class="small" id="calInfo" aria-live="polite"></span>
+            <div id="typeWrap" hidden>
+              <label class="visually-hidden" for="gDates">Stay dates, typed</label>
+              <input class="field" id="gDates" type="text" placeholder="e.g. Oct 10 – 13" autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="preview-head">
+            <span class="step-title"><b>3</b>Check it, then copy</span>
+            <button class="link-btn" id="editBtn">Edit message</button>
+          </div>
+          <div class="warn" id="warn" hidden>This message still has blanks from the playbook. Tap “Edit message” to fill them in.</div>
+          <div class="bubble" id="bubble"></div>
+          <div id="editWrap" class="step" hidden>
+            <label class="field-label" for="editor">Message template for this property. Keep [GUEST FIRST NAME] and [DATES] where the app should fill them in.</label>
+            <textarea class="editor" id="editor"></textarea>
+            <div class="row">
+              <button class="secondary" id="resetEdit">Reset to original</button>
+              <button class="secondary" id="saveEdit" style="border-color:var(--accent); color:var(--accent)">Save message</button>
+            </div>
+          </div>
+          <span class="small">Refunds, damage, safety or disputes: don’t promise anything. Contact the owner first.</span>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- Local guide (placeholder) -->
-  <section id="guide">
-    <div class="container">
-      <h2 class="section-title">Local Highlights</h2>
-      <p class="subtle">Handy picks in <strong>Orange, CA</strong> and <strong>Long Beach, CA</strong> — dining, sights, and family-friendly fun.</p>
-
-      <!-- Orange, CA -->
-      <h3 style="margin:24px 0 10px;">Orange, CA</h3>
-      <div class="cards">
-        <article class="card">
-          <img src="ChatGPT Image Aug 15, 2025, 09_20_07 PM.png" alt="Old Towne Orange Historic District">
-          <div class="card-body">
-            <span class="tag">Orange</span>
-            <h3>Old Towne Orange Historic District</h3>
-            <p>Antique shops, cafés, and the iconic plaza — perfect for a stroll.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <img src="ChatGPT Image Aug 15, 2025, 09_25_39 PM.png" alt="Orange Plaza Park">
-          <div class="card-body">
-            <span class="tag">Orange</span>
-            <h3>Orange Plaza Park</h3>
-            <p>Community hub with farmers’ markets, events, and shady lawns.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <img src="ChatGPT Image Aug 15, 2025, 09_32_36 PM.png" alt="Irvine Regional Park">
-          <div class="card-body">
-            <span class="tag">Orange</span>
-            <h3>Irvine Regional Park</h3>
-            <p>Trails, paddle boats, and the OC Zoo — easy outdoor day trip.</p>
-          </div>
-        </article>
+    <div class="bar">
+      <div class="row">
+        <button class="primary" id="copyBtn"></button>
+        <button class="secondary" id="shareBtn" aria-label="Share message" style="flex:0 0 58px; height:58px; border-radius:16px" hidden>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M7 8l5-5 5 5"></path><path d="M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"></path></svg>
+        </button>
       </div>
-
-      <!-- Long Beach, CA -->
-      <h3 style="margin:36px 0 10px;">Long Beach, CA</h3>
-      <div class="cards">
-        <article class="card">
-          <img src="ChatGPT Image Aug 15, 2025, 10_47_49 PM.png" alt="The Queen Mary in Long Beach Harbor">
-          <div class="card-body">
-            <span class="tag">Long Beach</span>
-            <h3>The Queen Mary</h3>
-            <p>Historic ocean liner offering tours, dining, and harbor views.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <img src="ChatGPT Image Aug 15, 2025, 11_01_10 PM.png" alt="Shoreline Village boardwalk">
-          <div class="card-body">
-            <span class="tag">Long Beach</span>
-            <h3>Shoreline Village</h3>
-            <p>Colorful waterfront boardwalk with shops, eats, and marina vibes.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <img src="email_images-2019-pv-exterior-dolphin-statue_900_q85.jpg" alt="Aquarium of the Pacific exhibits">
-          <div class="card-body">
-            <span class="tag">Long Beach</span>
-            <h3>Aquarium of the Pacific</h3>
-            <p>Top-tier marine exhibits — sharks, sea turtles, and touch tanks.</p>
-          </div>
-        </article>
-      </div>
+      <span class="small" id="hint">Copies the full message, ready to paste</span>
     </div>
   </section>
+</div>
 
-  <!-- Footer -->
-  <footer id="contact" class="footer">
-    <div class="container footer-grid">
-      <div>
-        <h3 style="margin-top:0">Vacation Haven</h3>
-        <p class="small">Premium short-term rentals with hotel-level service. Book direct & save.</p>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <p class="small">info@vacationhaven.co<br/>+1 (657) 631-9525</p>
-      </div>
-      <div>
-        <h4>Links</h4>
-        <p class="small"><a href="#homes">Browse Homes</a><br/><a href="#why">Why Us</a><br/><a href="#guide">Local Guide</a></p>
-      </div>
+<dialog id="settings" aria-labelledby="setTitle">
+  <form method="dialog" class="sheet" id="setForm">
+    <h2 id="setTitle">Settings</h2>
+    <label class="field-label" for="ownerName">Owner name</label>
+    <input class="field" id="ownerName" type="text" placeholder="e.g. Anthony" autocomplete="off">
+    <label class="field-label" for="ownerPhone">Owner phone</label>
+    <input class="field" id="ownerPhone" type="tel" placeholder="e.g. 562 555 0123" autocomplete="off">
+    <p class="small" style="margin:0">Saved on this phone only. Message edits are saved on this phone too.</p>
+    <div class="row" style="margin-top:6px">
+      <button class="secondary" value="cancel" type="submit">Cancel</button>
+      <button class="primary" value="save" type="submit" style="height:48px; font-size:16px">Save</button>
     </div>
-    <div style="text-align:center; padding: 16px; border-top:1px solid rgba(255,255,255,.12);" class="small">© <span id="year"></span> Vacation Haven. All rights reserved.</div>
-  </footer>
+  </form>
+</dialog>
 
-  <!-- Sticky mobile CTA -->
-  <div class="sticky-cta">
-    <button class="cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Now</button>
-  </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script>
-    const drawer = document.getElementById('drawer');
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ drawer.classList.remove('open'); } });
-    document.getElementById('year').textContent = new Date().getFullYear();
+<script>
+const BASE = [{"name": "Urban Oasis in Long Beach", "guests": 5, "w": "Hi [GUEST FIRST NAME], thank you for booking Urban Oasis in Long Beach! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME] Check-in Instructions\n1. Enter the code 9023.\n2. The unit is located in the back by the garage.\n3. Once inside, go up the stairs.\n• The key will be on the doors or doors will be unlocked.\n5. Wi-Fi:\n• Network: Anthony17\n• Password: Sunset205!\n6. Parking: Please park on the street in front of the house.", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Urban Oasis in Long Beach. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 1, "city": "Long Beach"}, {"name": "Adams Ave House", "guests": 3, "w": "Hi [GUEST FIRST NAME], thank you for booking Farmhouse Near Disneyland and Old Town! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME],  Thank you for booking with us. When you arrive at the house please park on the street. There is a parking permit you can use inside the unit. When you arrive there is a white gate on the left side of the garage. Open the gate and the house will be all the way at the end. The house is in the back unit. The unit number is 1241, you will see an arrow point towards the white gate. The door code is 8490. The WiFi is Anthony7 password is 5626226450. Please do not open the black gate next to the unit.", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Farmhouse Near Disneyland and Old Town. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 2, "city": "Orange"}, {"name": "Stylish Mid-Century Modern Room", "guests": 3, "w": "Hi [GUEST FIRST NAME], thank you for booking Stylish Mid-Century Modern Room! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], Check-in Instructions\n1. Enter the code 1112.\n2. The unit is located in the back by the garage.\n3. Once inside, go up the stairs. Your room will be to the left.\n• The key will be on the doors or doors will be unlocked.\n5. Wi-Fi:\n• Network: Anthony17\n• Password: Sunset205!\n6. Parking: Please park on the street or drive way.", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Stylish Mid-Century Modern Room. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 3, "city": "Long Beach"}, {"name": "The Haven Hub", "guests": null, "w": "Hi [GUEST FIRST NAME], thank you for booking The Haven Hub! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], welcome to The Haven Hub!  The door code is 9097.\nWi-Fi\nNetwork: Anthony17\nPassword: Sunset205!\n\nPass the kitchen there is another sofa to the right of it is the room. There should be a number 3 on the door. If you have questions just let me know. The bathroom inside the room is yours. The other bathroom in living room is for the other guest.\n\nEnjoy your stay!\n\nAnthony", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at The Haven Hub. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 4, "city": "Long Beach"}, {"name": "Mid-Century Gem in Long Beach", "guests": 8, "w": "Hi [GUEST FIRST NAME], thank you for booking Mid-Century Gem in Long Beach! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], welcome to Mid-Century Gem in Long Beach! Door code: 9097\n\nWi-Fi\nNetwork: Anthony17\nPassword: Sunset205!\n\nThere is parking available directly in front of the house, and you’re also welcome to park in the driveway.\n\nIf you have any questions during your stay, feel free to reach out.\n\nEnjoy your stay!\n— Anthony", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Mid-Century Gem in Long Beach. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 5, "city": "Long Beach"}, {"name": "Spacious Retreat with cozy room", "guests": null, "w": "Hi [GUEST FIRST NAME], thank you for booking Spacious Retreat with cozy room! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], welcome to Spacious Retreat with cozy room! Check-in is at 3 PM.\n\n[ENTER PROPERTY-SPECIFIC CHECK-IN INSTRUCTIONS]\n\nWi-Fi: [ENTER NETWORK / PASSWORD]\nParking: [ENTER PARKING INSTRUCTIONS]\n\nIf you have any questions, please message us here.", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Spacious Retreat with cozy room. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 6, "city": "Downey"}, {"name": "Stylish getaway: Mid-Century LB 1", "guests": 2, "w": "Hi [GUEST FIRST NAME], thank you for booking Stylish getaway: Mid-Century LB 1! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], welcome to Stylish getaway: Mid-Century LB 1! The room is ready. The door code is 9097.\n\nWi-Fi\nNetwork: Anthony17\nPassword: Sunset205!\n\nLet me know if you have any questions. There is a spot in front of the house for parking.\n\nWhen you enter the house make a right before the kitchen entrance then make another right. The room should have a number one on the door. You have access to the bathroom, living room and kitchen.\nIf you have any questions feel free to message me.", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Stylish getaway: Mid-Century LB 1. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 7, "city": "Long Beach"}, {"name": "Sunny Stay in Downey", "guests": 3, "w": "Hi [GUEST FIRST NAME], thank you for booking Sunny Stay in Downey! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], welcome to Sunny Stay in Downey! Here are your check-in details:\n• Door code: 1290\n• Parking: Please park all the way in the driveway, next to the garage, so you don’t block other cars.\n• Room location: Enter through the front door facing the street. Once inside, walk straight down the hallway—your room is the last door on the right.\n• Bathroom: The bathroom is inside your room. Please do not use the hallway bathroom, as that is for the other room.\n\nThe WiFi network is Anthony20, and the password is freshriver205\n\nKeys:\nYou’ll find two keys under the towels in your room:\n• One key is for your room\n• The other is for the laundry room\n\nLet me know if you have any questions—happy to help!", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Sunny Stay in Downey. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 8, "city": "Downey"}, {"name": "Urban Elegance: Stylish LB Stay 2", "guests": 2, "w": "Hi [GUEST FIRST NAME], thank you for booking Urban Elegance: Stylish LB Stay 2! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], welcome to Urban Elegance: Stylish LB Stay 2! The door code is 9097.\n\nWi-Fi\nNetwork: Anthony17\nPassword: Sunset205!\n\nThe room key is inside the room. The room should have a 2 on the door.\n\nLet me know if you have any questions. There is a spot in front of the house for parking.\n\nWhen you enter the house make a right before the kitchen entrance. The room should have a number two on the door. You have access to the bathroom, living room and kitchen.\nIf you have any questions feel free to message me.", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at Urban Elegance: Stylish LB Stay 2. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 9, "city": "Long Beach"}, {"name": "ADU-Half Right Room", "guests": 3, "w": "Hi [GUEST FIRST NAME], thank you for booking Modern Stay Near LGB Airport! We are looking forward to hosting you. Your reservation is confirmed for [DATES]. We will send your check-in details before arrival. If you have any questions in the meantime, please message us here.", "i": "Hi [GUEST FIRST NAME], welcome to Modern Stay Near LGB Airport! Check-in Instructions\n1. Enter the code 1112.\n2. The unit is located in the back by the garage.\n3. Once inside, go up the stairs. Your room will be to the Right.\n• The key will be on the doors or doors will be unlocked.\n5. Wi-Fi:\n• Network: Anthony17\n• Password: Sunset205!\n6. Parking: Please park on the street or drive way.", "o": "Good morning [GUEST FIRST NAME], we hope you enjoyed your stay at ADU-Half Right Room. Checkout is by 11 AM. Before leaving, please make sure you leave the keys and lock the doors. Throw out any trash in the outside bins and turn off the lights, TV, and air conditioners. Thank you for staying with us and safe travels!", "num": 10, "city": "Long Beach"}];
+const $ = (id) => document.getElementById(id);
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+let edits = store.get('cohost.edits', {});
+let owner = store.get('cohost.owner', { name:'', phone:'' });
+const st = { sel:0, tab:'w', name:'', dates:'', din:'', dout:'', mode:'cal', copied:false, editing:false };
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const toDate = (s) => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+const iso = (dt) => dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
+function nights(){ return (st.din && st.dout) ? Math.round((toDate(st.dout) - toDate(st.din)) / 86400000) : 0; }
+function calText(){
+  if (!st.din || !st.dout || nights() < 1) return '';
+  const a = toDate(st.din), b = toDate(st.dout);
+  if (a.getFullYear() !== b.getFullYear()) return MON[a.getMonth()] + ' ' + a.getDate() + ', ' + a.getFullYear() + ' – ' + MON[b.getMonth()] + ' ' + b.getDate() + ', ' + b.getFullYear();
+  if (a.getMonth() === b.getMonth()) return MON[a.getMonth()] + ' ' + a.getDate() + ' – ' + b.getDate();
+  return MON[a.getMonth()] + ' ' + a.getDate() + ' – ' + MON[b.getMonth()] + ' ' + b.getDate();
+}
+const datesText = () => st.mode === 'cal' ? calText() : st.dates.trim();
 
-    // ---------------- Router (hash URLs) ----------------
-    // Routes:
-    //   #/listings/:id   -> property page
-    //   #/browse         -> all listings
-    //   (no hash)        -> homepage
+const msg = (p, t) => (edits[p.num] && edits[p.num][t] != null) ? edits[p.num][t] : p[t];
+const meta = (p) => p.city + (p.guests ? ', up to ' + p.guests + ' guests' : '');
+const needsInfo = (p) => !p.guests || ['w','i','o'].some(t => msg(p,t).indexOf('[ENTER') >= 0);
+const esc = (s) => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-    function showSection(id){
-      document.getElementById('browse').hidden   = id !== '#browse';
-      document.getElementById('property').hidden = id !== '#property';
-      if(id === '#browse' || id === '#property'){
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
+function renderList(){
+  const q = $('q').value.trim().toLowerCase();
+  const items = BASE.filter(p => !q || p.name.toLowerCase().includes(q) || String(p.num) === q);
+  const list = $('list');
+  if (!items.length){ list.innerHTML = '<div class="empty">No property matches “' + esc(q) + '”. Try part of the name or its number.</div>'; return; }
+  list.innerHTML = '<span class="list-label">Pick a property (' + BASE.length + ')</span>' + items.map(p =>
+    '<button class="prop" data-i="' + BASE.indexOf(p) + '"><span class="num">' + p.num + '</span><span class="prop-text"><span class="prop-name">' + esc(p.name) + '</span><span class="prop-meta">' + meta(p) + '</span>' + (needsInfo(p) ? '<span class="tag">Needs info</span>' : '') + '</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 6l6 6-6 6"></path></svg></button>'
+  ).join('');
+}
 
-    function go(hash){
-      if(hash === '#booking'){
-        document.getElementById('booking').scrollIntoView({behavior:'smooth'});
-      } else {
-        history.pushState({}, '', hash);
-        route();
-      }
-    }
+function filled(){
+  const p = BASE[st.sel];
+  return msg(p, st.tab).split('[GUEST FIRST NAME]').join(st.name.trim() || '[GUEST FIRST NAME]').split('[DATES]').join(datesText() || '[DATES]');
+}
 
-    function renderProperty(l){
-      document.getElementById('propTitle').textContent = l.title;
-      document.getElementById('propImage').src = l.img;
-      document.getElementById('propImage').alt = l.title;
-      document.getElementById('propMeta').textContent = l.meta;
-      document.getElementById('priceLine').textContent = `From $${l.price}/night`;
-      renderChannelButtons(l);
-      document.title = `${l.title} · Vacation Haven`;
-      // Prefill contact page with the property slug
-      document.getElementById('contactBtn').href = '/contact.html?property=' + encodeURIComponent(l.id);
-    }
+function renderDetail(){
+  const p = BASE[st.sel];
+  $('dName').textContent = p.name;
+  $('dMeta').textContent = meta(p) + ', #' + p.num;
+  document.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tab === st.tab)));
+  $('datesWrap').hidden = st.tab !== 'w';
+  document.querySelectorAll('.mode-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === st.mode)));
+  $('calWrap').hidden = st.mode !== 'cal';
+  $('typeWrap').hidden = st.mode !== 'type';
+  const info = $('calInfo'), n = nights();
+  info.hidden = st.mode !== 'cal';
+  info.classList.toggle('err', !!(st.din && st.dout && n < 1));
+  info.textContent = !st.din ? 'Pick the check-in day' : !st.dout ? 'Now pick the checkout day' : n < 1 ? 'Checkout has to be after check-in' : n + (n === 1 ? ' night' : ' nights') + ': shows as “' + calText() + '”';
+  const raw = msg(p, st.tab);
+  $('warn').hidden = raw.indexOf('[ENTER') < 0;
+  $('bubble').innerHTML = esc(filled()).replace(/\[[^\]\n]+\]/g, m => '<mark>' + m + '</mark>');
+  $('bubble').hidden = st.editing;
+  $('editWrap').hidden = !st.editing;
+  $('editBtn').textContent = st.editing ? 'Done' : 'Edit message';
+  const needName = !st.name.trim(), needDates = st.tab === 'w' && !datesText();
+  const btn = $('copyBtn');
+  btn.classList.toggle('done', st.copied);
+  if (needName || needDates || st.editing){
+    btn.disabled = true;
+    btn.textContent = st.editing ? 'Save your edit first' : needName ? 'Add the guest’s name to copy' : 'Add the stay dates to copy';
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = st.copied
+      ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Copied'
+      : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 012-2h9"></path></svg>Copy message';
+  }
+  $('shareBtn').disabled = btn.disabled;
+  $('hint').textContent = st.copied ? 'Now paste it in Airbnb, VRBO or Hospitable' : 'Copies the full message, ready to paste';
+}
 
-    // Programmatic open helper (not used by cards, but handy)
-    function openProperty(id){
-      location.hash = `#/listings/${id}`;
-    }
+function show(view){
+  $('home').hidden = view !== 'home';
+  $('detail').hidden = view !== 'detail';
+  if (view === 'home') renderList();
+}
 
-    function route(){
-      const h = location.hash || '';
-      // Match #/listings/:id
-      const m = h.match(/^#\/listings\/([^?#]+)/);
-      if(m){
-        const id = decodeURIComponent(m[1]);
-        const l = listings.find(x => x.id === id);
-        if(l){
-          renderProperty(l);
-          showSection('#property');
-          return;
-        } else {
-          showSection('#browse');
-          return;
-        }
-      }
+function openProp(i){
+  Object.assign(st, { sel:i, tab:'w', name:'', dates:'', din:'', dout:'', copied:false, editing:false });
+  $('gName').value = ''; $('gDates').value = ''; $('dIn').value = ''; $('dOut').value = ''; $('dOut').min = '';
+  renderDetail(); show('detail'); $('dScroll').scrollTop = 0;
+  history.pushState({ v:'detail' }, '');
+}
 
-      if(h === '#/browse' || h === '#browse'){
-        showSection('#browse');
-      } else {
-        // homepage (hide browse & property)
-        showSection('#homes');
-      }
-    }
+function toast(t){
+  const el = $('toast'); el.textContent = t; el.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 2200);
+}
 
-    window.addEventListener('hashchange', route);
+async function copyText(text){
+  try { await navigator.clipboard.writeText(text); return true; } catch(e){}
+  try {
+    const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly','');
+    ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand('copy'); ta.remove(); return ok;
+  } catch(e){ return false; }
+}
 
-    // ---------------- Data ----------------
-    const listings = [
-      { id:'coastal', title:'Family-Friendly Orange Getaway Near Disneyland | Patio & Fireplace', price:240, beds:3, meta:'3 beds • 2 baths • Highlights Local Charm', img:'/20250716_1321_Modern Cozy Living Room_remix_01k0aea1svfhpsxbpm988k3qtp.png',
-        airbnb:'https://www.airbnb.com/rooms/953523531365374164?check_in=2025-08-09&check_out=2025-08-14&guests=1&adults=1&s=67&unique_share_id=bd72152b-22fe-4c25-a86a-9da648312a2a', vrbo:'https://www.vrbo.com/your-coastal-retreat', booking:'https://www.booking.com/hotel/us/your-coastal-retreat.html' },
-      { id:'villa', title:'Modern Villa', price:410, beds:4, meta:'4 beds • 3 baths • Private pool', img:'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=1600&auto=format&fit=crop',
-        airbnb:'https://www.airbnb.com/h/your-modern-villa', vrbo:'https://www.vrbo.com/your-modern-villa', booking:'https://www.booking.com/hotel/us/your-modern-villa.html' },
-      { id:'mountain', title:'Mountain Escape', price:180, beds:2, meta:'2 beds • 1 bath • Fireplace', img:'https://images.unsplash.com/photo-1582582429416-58921c4b3878?q=80&w=1600&auto=format&fit=crop',
-        airbnb:'https://www.airbnb.com/h/your-mountain-escape', vrbo:'https://www.vrbo.com/your-mountain-escape', booking:'https://www.booking.com/hotel/us/your-mountain-escape.html' },
-      { id:'bungalow', title:'Garden Bungalow', price:220, beds:2, meta:'2 beds • 1 bath • Patio', img:'https://images.unsplash.com/photo-1505691723518-36a5ac3b2d52?q=80&w=1600&auto=format&fit=crop',
-        airbnb:'', vrbo:'', booking:'' }
-    ];
+function renderOwner(){
+  const a = $('ownerBtn');
+  if (owner.phone){ a.href = 'tel:' + owner.phone.replace(/[^0-9+]/g,''); $('ownerLabel').textContent = 'Problem? Call ' + (owner.name || 'the owner'); }
+  else { a.href = '#'; $('ownerLabel').textContent = 'Problem? Contact the owner'; }
+}
 
-    // ---------------- UI helpers ----------------
-    function cardFor(item){
-      return `
-        <a class="card" href="/property.html?id=${item.id}" style="cursor:pointer; text-decoration:none; color:inherit;">
-          <img src="${item.img}" alt="${item.title}"/>
-          <div class="card-body">
-            <h3>${item.title}</h3>
-            <p>${item.meta}</p>
-            <span class="tag">From $${item.price}/night</span>
-          </div>
-        </a>
-      `;
-    }
+/* events */
+$('q').addEventListener('input', renderList);
+$('list').addEventListener('click', e => { const b = e.target.closest('.prop'); if (b) openProp(Number(b.dataset.i)); });
+$('back').addEventListener('click', () => { if (history.state && history.state.v === 'detail') history.back(); else show('home'); });
+window.addEventListener('popstate', () => show('home'));
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { st.tab = b.dataset.tab; st.copied = false; st.editing = false; renderDetail(); }));
+$('gName').addEventListener('input', e => { st.name = e.target.value; st.copied = false; renderDetail(); });
+$('gDates').addEventListener('input', e => { st.dates = e.target.value; st.copied = false; renderDetail(); });
+$('dIn').addEventListener('change', e => {
+  st.din = e.target.value; st.copied = false;
+  if (st.din){
+    const next = toDate(st.din); next.setDate(next.getDate() + 1);
+    $('dOut').min = iso(next);
+    if (!st.dout || nights() < 1){ st.dout = iso(next); $('dOut').value = st.dout; }
+  }
+  renderDetail();
+});
+$('dOut').addEventListener('change', e => { st.dout = e.target.value; st.copied = false; renderDetail(); });
+document.querySelectorAll('.mode-btn').forEach(b => b.addEventListener('click', () => {
+  st.mode = b.dataset.mode; st.copied = false;
+  if (st.mode === 'type' && !st.dates.trim() && calText()){ st.dates = calText(); $('gDates').value = st.dates; }
+  renderDetail();
+  (st.mode === 'type' ? $('gDates') : $('dIn')).focus();
+}));
+$('copyBtn').addEventListener('click', async () => {
+  const ok = await copyText(filled());
+  if (ok){ st.copied = true; renderDetail(); toast('Copied. Paste it in your guest chat.'); }
+  else toast('Couldn’t copy. Press and hold the message to copy it.');
+});
+if (navigator.share){
+  $('shareBtn').hidden = false;
+  $('shareBtn').addEventListener('click', async () => { try { await navigator.share({ text: filled() }); } catch(e){} });
+}
+$('editBtn').addEventListener('click', () => {
+  if (st.editing){ st.editing = false; renderDetail(); return; }
+  st.editing = true; $('editor').value = msg(BASE[st.sel], st.tab); renderDetail(); $('editor').focus();
+});
+$('saveEdit').addEventListener('click', () => {
+  const p = BASE[st.sel];
+  edits[p.num] = edits[p.num] || {}; edits[p.num][st.tab] = $('editor').value;
+  store.set('cohost.edits', edits); st.editing = false; st.copied = false; renderDetail(); toast('Message saved');
+});
+$('resetEdit').addEventListener('click', () => {
+  const p = BASE[st.sel];
+  if (edits[p.num]){ delete edits[p.num][st.tab]; store.set('cohost.edits', edits); }
+  $('editor').value = p[st.tab]; st.copied = false; renderDetail(); toast('Back to the original message');
+});
+$('openSettings').addEventListener('click', () => { $('ownerName').value = owner.name; $('ownerPhone').value = owner.phone; $('settings').showModal(); });
+$('ownerBtn').addEventListener('click', e => { if (!owner.phone){ e.preventDefault(); $('openSettings').click(); } });
+$('settings').addEventListener('close', () => {
+  if ($('settings').returnValue === 'save'){
+    owner = { name: $('ownerName').value.trim(), phone: $('ownerPhone').value.trim() };
+    store.set('cohost.owner', owner); renderOwner(); toast('Settings saved');
+  }
+});
 
-    function renderListings(data=listings){
-      const grid = document.getElementById('listingGrid');
-      if(grid) grid.innerHTML = data.map(cardFor).join('');
-      const featured = document.getElementById('featuredGrid');
-      if(featured) featured.innerHTML = listings.slice(0,3).map(cardFor).join('');
-    }
-
-    function applyFilters(){
-      const min = Number(document.getElementById('minPrice').value || 0);
-      const max = Number(document.getElementById('maxPrice').value || 1e9);
-      const beds = Number(document.getElementById('beds').value || 0);
-      const filtered = listings.filter(l => l.price>=min && l.price<=max && l.beds>=beds);
-      renderListings(filtered);
-    }
-
-    function beginBooking(){
-      const t = document.getElementById('propTitle').textContent;
-      const l = listings.find(x=>x.title===t);
-      const url = l?.airbnb || l?.vrbo || l?.booking || '';
-      if(url){ window.open(url, '_blank', 'noopener'); }
-      else { alert('Add an Airbnb/Vrbo/Booking.com link for this property, or connect a direct booking engine.'); }
-    }
-
-    function renderChannelButtons(l){
-      const el = document.getElementById('channelBtns');
-      if(!el) return;
-      const btn = (label, url) => url ? `<a class="cta" style="text-align:center; display:block; text-decoration:none;" target="_blank" rel="noopener nofollow" href="${url}">Book on ${label}</a>` : '';
-      el.innerHTML = [btn('Airbnb', l.airbnb), btn('Vrbo', l.vrbo), btn('Booking.com', l.booking)]
-        .filter(Boolean).join('');
-    }
-
-    // ---------------- Boot ----------------
-    renderListings();
-    route(); // handle direct hits like #/listings/coastal
-  </script>
+renderOwner(); renderList();
+</script>
 </body>
 </html>
